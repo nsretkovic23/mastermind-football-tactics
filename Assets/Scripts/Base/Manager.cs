@@ -1,18 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Manager : MonoBehaviour
+namespace Base
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Manager : MonoBehaviour
     {
-        
-    }
+        public string Name { get; set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        [field:SerializeField] public List<Player> Players { get; set; }
+
+        private void OnValidate()
+        {
+            Players.ForEach(player => player.Manager = this);
+        }
     }
 }
