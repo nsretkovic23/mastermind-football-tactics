@@ -3,39 +3,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Base
 {
-    public enum FieldState
-    {
-        Free,
-        OnePlayer,
-        TwoPlayers,
-        Ball
-    }
-
     public class Field : MonoBehaviour
     {
-        public bool IsForbidden { get; set; }
+        [field:SerializeField] public Vector2Int Position { get; set; }
+        [field:SerializeField] public int X => Position.x; 
+        [field:SerializeField] public int Y => Position.y;
+        [field:SerializeField] public bool IsForbidden { get; set; }
+        [field:SerializeField] public bool IsGoalkeeper { get; set; }
+        [field: SerializeField] public bool IsEmpty => Players.Count == 0;
+        [field: SerializeField] public List<Player> Players { get; set; }
+        [field:SerializeField] public Ball Ball { get; set; }
+        [field:SerializeField] public SpriteRenderer Sprite { get; set; }
+        [field:SerializeField] public Transform LeftBallHolder { get; private set; }
+        [field:SerializeField] public Transform RightBallHolder { get; private set; }
+        public UnityAction<Field> OnFieldClicked { get; set; }
         public UnityAction<Field, Player> OnPlayerMovedToTheField { get; set; }
         public UnityAction<Field, Player> OnPlayerLeftTheField { get; set; }
 
         [SerializeField] protected int maximumPlayersOnField;
-        [SerializeField] protected List<Player> players;
+
+        private void OnValidate()
+        {
+            Sprite = GetComponent<SpriteRenderer>();
+            //Players = new List<Player>();
+        }
 
         private void Awake()
         {
-            players = new List<Player>(maximumPlayersOnField);
+           //Players = new List<Player>(maximumPlayersOnField);
         }
 
-        public bool CanMoveToTheField()
+        private void OnMouseDown()
         {
-            return players.Count < maximumPlayersOnField && !IsForbidden;
+            OnFieldClicked?.Invoke(this);
+        }
+
+        public virtual bool CanMoveToTheField(Base.Player player)
+        {
+            return Players.Count < maximumPlayersOnField && !IsForbidden;
+        }
+        
+        public virtual bool CanPassTheBallToTheField(Base.Player player)
+        {
+            return !IsForbidden;
         }
 
         public bool IsPlayerOnTheField(Player player)
         {
-            return players.Contains(player);
+            return Players.Contains(player);
         }
 
         public void MoveToTheField(Player player)
@@ -48,13 +67,15 @@ namespace Base
                 return;
             }
 
-            players.Add(player);
+            // TODO: Temporary just to make sure that player player is on the field, it should be animated as a player running or something
+            player.transform.position = transform.position;
+            Players.Add(player);
             OnPlayerMovedToTheField?.Invoke(this, player);
         }
 
         public void LeaveTheField(Player player)
         {
-            if (!players.Contains(player))
+            if (!Players.Contains(player))
             {
                 Debug.LogError(
                     "You tried to leave the field that you are not on, make sure you check if player is on this field: " +
@@ -62,7 +83,7 @@ namespace Base
                 return;
             }
 
-            players.Remove(player);
+            Players.Remove(player);
             OnPlayerLeftTheField?.Invoke(this, player);
         }
     }
