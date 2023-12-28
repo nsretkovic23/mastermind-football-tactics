@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Modes.Standard;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
@@ -10,12 +11,12 @@ using UnityEngine.SceneManagement;
 
 namespace Base
 {
-    // TODO: Consider converting it to a class
     public enum Action
     {
         Move,
         Pass,
-        Shoot
+        Shoot,
+        None
     }
     public class GameplayShowcase : MonoBehaviour
     {
@@ -23,27 +24,43 @@ namespace Base
         [SerializeField] private Manager m2;
         [SerializeField] private Matrix matrixController;
         [SerializeField] private Ball ball;
-
+        [SerializeField] private TextMeshProUGUI currentlyPlaysText;
+        
         private Field firstSelectedField;
         private Field secondSelectedField;
+
+        [field: SerializeField] public Action SelectedAction { get; set; } = Action.None;
+        [field: SerializeField] private Field FieldWhereTheBallIs { get; set; }
         
-        [field:SerializeField] public Manager CurrentlyPlays { get; set; } 
-        [field:SerializeField] public Action SelectedAction { get; set; }
-
-
+        private Manager currentlyPlays;
+        public Manager CurrentlyPlays
+        {
+            get => currentlyPlays;
+            set
+            {
+                currentlyPlays = value;
+                currentlyPlaysText.text = $"Plays: "+ currentlyPlays.Name;
+            }
+        }
+        
         private void Awake()
         {
             matrixController.InitializeMatrix();
             matrixController.OnFieldClicked += FieldClickedHandler;
             PutPlayersOnField();
-            ball.transform.position = ball.CurrentField.LeftBallHolder.position;
+            
+            
+            // TODO: Extract this
             CurrentlyPlays = m1;
-        }
-
-        public void ReloadScene()
-        {
-            Scene currentScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentScene.name);
+            SetFieldColliderState(m1.GetFieldsWithPlayers(), true);
+            SetFieldColliderState(m2.GetFieldsWithPlayers(), false);
+            
+            ball.transform.position = 
+                CurrentlyPlays == m1 ? 
+                    FieldWhereTheBallIs.RightBallHolder.position 
+                    : FieldWhereTheBallIs.LeftBallHolder.position;
+            
+            FieldWhereTheBallIs.Ball = ball;
         }
         
         private void PutPlayersOnField()
@@ -59,34 +76,53 @@ namespace Base
             }
         }
 
+        /// <summary>
+        /// Field invokes this method when it's clicked
+        /// </summary>
+        /// <param name="field">Field that is clicked</param>
         private void FieldClickedHandler(Field field)
         {
-            // TODO: Remove DRY
-            if (firstSelectedField == field)
+            // ==== UNSELECT FIELD ====
+            if (firstSelectedField == field || secondSelectedField == field)
             {
-                firstSelectedField = null;
-                Debug.Log("Unselect field animation here");
+                if (firstSelectedField == field)
+                {
+                    ReturnFieldsToNormalColor();
+                    firstSelectedField = null;
+                }
+                else
+                {
+                    ReturnFieldsToNormalColor();
+                    secondSelectedField = null;
+                }
+
+                SelectedAction = Action.None;
                 StartCoroutine(ColorLerpCoroutine(field, Color.grey, Color.white, .5f));
-                
                 return;
             }
-            // TODO: Remove DRY
-            if (secondSelectedField == field)
-            {
-                secondSelectedField = null;
-                Debug.Log("Unselect field animation here");
-                StartCoroutine(ColorLerpCoroutine(field, Color.grey, Color.white, .5f));
-                
-                return;
-            }
+            // ==== END UNSELECT FIELD ====
             
-            if(firstSelectedField && secondSelectedField)
+            // TODO: This is instant field selecting, add a delay later
+            if(firstSelectedField == null)
             {
-                Debug.Log("You already selected two fields, now select the action!");
-                return;
+                TryToSelectFirstField(field, CurrentlyPlays);
             }
-            
-            TryToSelectFirstField(field, CurrentlyPlays == m1 ? m1 : m2);
+            else
+            {
+                if (SelectedAction == Action.None)
+                {
+                    Debug.LogError("Select the action first before selecting the second field");
+                    return;
+                }
+                else
+                {
+                    TryToSelectSecondField(field);
+                    // Action is chosen, and after it second field is clicked, the action should be executed
+                    ExecuteAction(SelectedAction);
+                    UnselectBothFields();
+                    NextTurn(); // TODO: Rename to SwitchTurns()
+                }
+            }
         }
 
         private void TryToSelectFirstField(Field field, Manager manager)
@@ -105,14 +141,30 @@ namespace Base
             StartCoroutine(ColorLerpCoroutine(field, Color.white, Color.grey, .5f));
         }
         
+        private void TryToSelectSecondField(Field field)
+        {
+            secondSelectedField = field;
+            StartCoroutine(ColorLerpCoroutine(field, Color.white, Color.grey, .5f));
+        }
+        
         /// <summary>
-        /// UI Buttons
+        /// Invokes when action is pressed (UI button)
+        /// Action can be selected only after first field is selected
+        /// When action is selected, it enables colliders on available fields that are candidates to be selected as second field
         /// </summary>
         /// <param name="action"></param>
         public void SelectAction(int action)
         {
+            if (firstSelectedField == null)
+            {
+                Debug.LogError("You need to select the field first, before selecting the action");
+                return;
+            }
+            SetFieldColliderState(matrixController.Fields, false);
+            
             SelectedAction = (Action)action;
             
+            // TODO: See if you can do some abstraction over actions, since they are very similar and have a lot of duplicate code
             if (SelectedAction == Action.Move)
             {
                 // Find manager's player that is currently playing on the field where he clicked, since there will be checks when selecting first field
@@ -121,104 +173,131 @@ namespace Base
                 List<Field> availableFields = matrixController.GetAvailableFieldsToMoveThePlayer(firstSelectedField, CurrentlyPlays, player, SelectedAction);
                 
                 availableFields.ForEach(f => StartCoroutine(ColorLerpCoroutine(f, Color.white, Color.yellow, .5f)));
+                // Adding first selected field to its collider can still be enabled, in case you want to deselect the field
+                availableFields.AddRange(new List<Field> {firstSelectedField});
+                SetFieldColliderState(availableFields, true);
             }
             else if (SelectedAction == Action.Pass)
             {
+                if (firstSelectedField.Ball != ball)
+                {
+                    Debug.LogError("You can't pass the ball from the field that doesn't have the ball");
+                    SelectedAction = Action.None;
+                    return;
+                }
+                
                 Player player = firstSelectedField.Players.Find(p => CurrentlyPlays.Players.Contains(p));
                 List<Field> availableFields = matrixController.GetAvailableFieldsToPass(firstSelectedField, CurrentlyPlays, player, SelectedAction);
                 
                 availableFields.ForEach(f => StartCoroutine(ColorLerpCoroutine(f, Color.white, Color.cyan, .5f)));
+                // Adding first selected field to its collider can still be enabled, in case you want to deselect the field
+                availableFields.AddRange(new List<Field> {firstSelectedField});
+                SetFieldColliderState(availableFields, true);
             }
+        }
+
+        private void SetFieldColliderState(List<Field> fields, bool state)
+        {
+            fields.ForEach(f => f.Collider.enabled = state);
         }
         
-        // TODO: Consider refactoring it, when possible fields for certain actions are obtained, just enable their colliders
-        private void TryToSelectSecondField(Field field, Manager manager)
+        private void UnselectBothFields()
         {
-            Debug.Log("Trying to select SECOND field: " + field.name);
-
-            // HANDLE MOVE ACTION
-            if(SelectedAction == Action.Move)
+            // TODO: Don't call ReturnFieldsToNormalColor() as this is called in different context
+            if (firstSelectedField != null)
             {
-                if (field.Players.Count == 0)
-                {
-                    // No players on the field, you can move
-                    // TODO: Coroutine for moving the player from field to field
-                    // TODO: There might be a ball on this empty field, handle this case
-                }
-                else if (field.Players.Count == 1 && !manager.Players.Contains(field.Players[0]) && (ball.CurrentField != field && field.Ball == null))
-                {
-                    // On the field is opponent player, you can move and mark him, only if he doesn't have the ball
-                    // TODO: Coroutine for moving the player from field to field
-                }
-                else
-                {
-                    Debug.LogError("You can't move to this field");
-                }
-            }
-
-            // HANDLE PASS ACTION
-            if (SelectedAction == Action.Pass)
-            {
-                
-            }
-        }
-
-        private void TryToSelectField(Field field, Manager manager)
-        {
-            Debug.Log("Trying to select field: " + field.name);
-
-            if (field.Players.Count == 0)
-            {
-                // TODO: This also prevent passing the ball to the empty field, think about it if it should be allowed
-                Debug.LogError("You can't click on empty field, select field where your player is");
-                return;
-            }
-
-            Player player = field.Players.Find(p => manager.Players.Contains(p));
-            if (!player)
-            {
-                Debug.LogError("You can't click on field where the opponent player is first. Select your player and then you can maybe move to this field to mark the player");
-                return;
-            }
-
-            if (!firstSelectedField)
-            {
-                firstSelectedField = field;
-
-                StartCoroutine(ColorLerpCoroutine(field, Color.white, Color.grey, .5f));
-                return;
+                StartCoroutine(ColorLerpCoroutine(firstSelectedField, Color.grey, Color.white, .5f));
+                firstSelectedField = null;
             }
             
-            if (!secondSelectedField)
+            if (secondSelectedField != null)
             {
-                secondSelectedField = field;
-                Debug.Log("You selected two fields, now select the action!");
-                StartCoroutine(ColorLerpCoroutine(field, Color.white, Color.grey, .5f));
-                return;
+                StartCoroutine(ColorLerpCoroutine(secondSelectedField, Color.grey, Color.white, .5f));
+                secondSelectedField = null;
             }
+            
+            SelectedAction = Action.None;
+        }
+        
+        private void ReturnFieldsToNormalColor()
+        {
+            matrixController.Fields.ForEach(f => f.Sprite.color = Color.white);
+        }
+        
+        #region Action Execution
+        public void ExecuteAction(Action action)
+        {
+            if (action == Action.Pass)
+            {
+                ExecutePass();
+            }
+            else if (action == Action.Move)
+            {
+                ExecuteMove();
+            }
+            // else if (action == Action.Shoot)
+            // {
+            //     ExecuteShoot();
+            // }
+        }
+
+        public void ExecuteMove()
+        {
+            // TODO: Plan for TurnController, where this player finding will be extracted there
+            Player player = firstSelectedField.Players.Find(p => CurrentlyPlays.Players.Contains(p));
+            StartCoroutine(MoveToNextField(player, firstSelectedField, secondSelectedField));
+            
+            firstSelectedField.LeaveTheField(player);
+            secondSelectedField.MoveToTheField(player);
+            player.CurrentField = secondSelectedField;
         }
         
         public void ExecutePass()
         {
-            if (!firstSelectedField || !secondSelectedField)
-            {
-                Debug.LogError("You need to select source and destination field where you want to pass the ball first");
-                return;
-            }
-
-            if (firstSelectedField.Ball == null)
-            {
-                Debug.LogError("First selected field doesn't have the ball, you can't pass the ball from this field");
-                return;
-            }
-
-            StartCoroutine(ColorLerpCoroutine(firstSelectedField, Color.grey, Color.white, .5f));
-            StartCoroutine(ColorLerpCoroutine(secondSelectedField, Color.grey, Color.white, .5f));
-            
             StartCoroutine(PassTheBallCoroutine(firstSelectedField, secondSelectedField));
+            FieldWhereTheBallIs = secondSelectedField;
+            FieldWhereTheBallIs.Ball = ball;
+            firstSelectedField.Ball = null;
         }
+        #endregion
+        
+        # region UI helpers
+        public void ReloadScene()
+        {
+            Scene currentScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(currentScene.name);
+        }
+        
+        public void NextTurn()
+        {
+            ReturnFieldsToNormalColor();
+            if (CurrentlyPlays == m1)
+            {
+                SetFieldColliderState(m2.GetFieldsWithPlayers(), true);
+                SetFieldColliderState(m1.GetFieldsWithPlayers(), false);
+                CurrentlyPlays = m2;
+            }
+            else
+            {
+                SetFieldColliderState(m1.GetFieldsWithPlayers(), true);
+                SetFieldColliderState(m2.GetFieldsWithPlayers(), false);
+                CurrentlyPlays = m1;
+            }
+        }
+        #endregion
 
         #region Coroutine Animations
+
+        private IEnumerator MoveToNextField(Player p, Field current, Field next)
+        {
+            float speed = 5f;
+            while (Vector2.Distance(p.transform.position, next.transform.position) > 0.01f)
+            {
+                p.transform.position = Vector2.MoveTowards(p.transform.position, next.transform.position, speed * Time.deltaTime);
+                yield return null;
+            }
+            p.transform.position = next.transform.position;
+        }
         
         /// <summary>
         /// Here we pass the source and destination field and move the ball using MoveTowards
@@ -228,11 +307,11 @@ namespace Base
         {
             Vector3 startingScale = ball.transform.localScale;
             Vector3 sourcePos = source.transform.position;
-            Vector3 destPos = destination.transform.position;
+            Vector3 destPos = CurrentlyPlays == m1 ? destination.RightBallHolder.position : destination.LeftBallHolder.position;
             Vector3 midPoint = (sourcePos + destPos) / 2;
 
             const float speed = 2f; // Adjust as needed
-            const float maxScale = 1.5f; // Adjust as needed
+            const float maxScale = 1.2f; // Adjust as needed
 
             while (ball.transform.position != destPos)
             {
@@ -242,6 +321,7 @@ namespace Base
                 // Calculate the distance to the midpoint and use it to scale the ball
                 float distanceToMidPoint = Vector3.Distance(ball.transform.position, midPoint);
                 float scale = maxScale * (1 - distanceToMidPoint / Vector3.Distance(sourcePos, midPoint));
+                
                 // Prevent scale down below the starting scale
                 // ==== Constraint ==== the ball should have the same scale on x and y axis
                 float scaleClamp = Mathf.Clamp(scale, startingScale.x, scale); 

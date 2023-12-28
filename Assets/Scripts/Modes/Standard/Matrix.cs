@@ -196,9 +196,8 @@ namespace Modes.Standard
         
         public override List<Base.Field> GetAvailableFieldsToPass(Base.Field selectedField, Base.Manager manager, Base.Player player, Base.Action action)
         {
-            // TODO: Handle long pass zones - these will probably be the ones on the sideline
-            // TODO: And you can pass to your teammate across the same column
-            // TODO: Otherwise, rules are: you can pass up/down/left/right/diagonally to the closest player, if player is market, you can't pass to him
+            // TODO: Handle long pass zones - these will probably be the ones on the sideline, and you can pass to your teammate across the same column
+            // TODO: Otherwise, rules are: you can pass up/down/left/right/diagonally to the closest player, but if player is marked, you can't pass to him
             // TODO: RECONSIDER - you can pass to empty field, for now you can't
             List<Base.Field> availableFields = new List<Base.Field>();
             

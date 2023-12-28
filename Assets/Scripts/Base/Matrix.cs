@@ -12,8 +12,10 @@ namespace Base
         public UnityAction<Field> OnFieldClicked { get; set; }
         [SerializeField] protected short rows;
         [SerializeField] protected short columns;
+        
         [SerializeField] protected List<Field> fields;
-
+        public List<Field> Fields => fields;
+        
         protected Field[,] matrix;
 
         public void InitializeMatrix()
@@ -44,7 +46,7 @@ namespace Base
 
         protected abstract List<Field> GetAvailableFieldsToPassFromList(List<Base.Field> directionFields,
             Base.Player player);
-       
+        
         /// <summary>
         /// Returns fields in order to the right of the field that is passed as a parameter
         /// It doesn't include goalkeeper fields and neither forbidden fields

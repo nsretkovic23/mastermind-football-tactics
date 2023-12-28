@@ -6,5 +6,4 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [field:SerializeField] public Field CurrentField { get; set; }
 }

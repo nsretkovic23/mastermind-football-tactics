@@ -7,7 +7,7 @@ namespace Base
 {
     public class Manager : MonoBehaviour
     {
-        public string Name { get; set; }
+        [field:SerializeField] public string Name { get; set; }
 
         [field:SerializeField] public List<Player> Players { get; set; }
 
@@ -15,5 +15,19 @@ namespace Base
         {
             Players.ForEach(player => player.Manager = this);
         }
+        
+        public List<Field> GetFieldsWithPlayers()
+        {
+            List<Field> fields = new List<Field>();
+            Players.ForEach(player =>
+            {
+                if (!fields.Contains(player.CurrentField))
+                {
+                    fields.Add(player.CurrentField);
+                }
+            });
+
+            return fields;
+        } 
     }
 }

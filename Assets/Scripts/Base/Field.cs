@@ -9,32 +9,40 @@ namespace Base
 {
     public class Field : MonoBehaviour
     {
+        [field:SerializeField] public Collider2D Collider { get; set; }
         [field:SerializeField] public Vector2Int Position { get; set; }
-        [field:SerializeField] public int X => Position.x; 
-        [field:SerializeField] public int Y => Position.y;
         [field:SerializeField] public bool IsForbidden { get; set; }
         [field:SerializeField] public bool IsGoalkeeper { get; set; }
-        [field: SerializeField] public bool IsEmpty => Players.Count == 0;
         [field: SerializeField] public List<Player> Players { get; set; }
         [field:SerializeField] public Ball Ball { get; set; }
         [field:SerializeField] public SpriteRenderer Sprite { get; set; }
         [field:SerializeField] public Transform LeftBallHolder { get; private set; }
         [field:SerializeField] public Transform RightBallHolder { get; private set; }
+        public int X => Position.x;
+        public int Y => Position.y;
+        public bool IsEmpty => Players.Count == 0;
         public UnityAction<Field> OnFieldClicked { get; set; }
         public UnityAction<Field, Player> OnPlayerMovedToTheField { get; set; }
         public UnityAction<Field, Player> OnPlayerLeftTheField { get; set; }
 
         [SerializeField] protected int maximumPlayersOnField;
 
-        private void OnValidate()
+        private void OnValidate() 
         {
-            Sprite = GetComponent<SpriteRenderer>();
-            //Players = new List<Player>();
+            if (Collider == null)
+            {
+                Collider = GetComponent<Collider2D>();
+                //this.Collider.enabled = false;
+            }
+
+            if (Sprite == null)
+            {
+                Sprite = GetComponent<SpriteRenderer>();
+            }
         }
 
         private void Awake()
         {
-           //Players = new List<Player>(maximumPlayersOnField);
         }
 
         private void OnMouseDown()
@@ -67,8 +75,6 @@ namespace Base
                 return;
             }
 
-            // TODO: Temporary just to make sure that player player is on the field, it should be animated as a player running or something
-            player.transform.position = transform.position;
             Players.Add(player);
             OnPlayerMovedToTheField?.Invoke(this, player);
         }

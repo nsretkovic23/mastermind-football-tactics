@@ -19,6 +19,9 @@ namespace Modes.Standard
             return result;
         }
         
+        /// <summary>
+        /// Checks if player can pass the ball to this field.
+        /// </summary>
         public override bool CanPassTheBallToTheField(Base.Player player)
         {
             bool result =
