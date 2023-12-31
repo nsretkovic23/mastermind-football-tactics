@@ -26,7 +26,7 @@ namespace Modes.Standard
         {
             bool result =
                 !IsForbidden
-                && !IsGoalkeeper
+                && !IsGoal
                 && Players.Count == 1 // TODO: If decided that ball can be passed to the empty field modify to (Players.Count == 1 || IsEmpty)
                 && Players[0].Manager == player.Manager
                 && Players[0] != player;
