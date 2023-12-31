@@ -5,11 +5,16 @@ using UnityEngine;
 
 namespace Base
 {
+    public enum AttackingDirection
+    {
+        Left,
+        Right
+    }
     public class Manager : MonoBehaviour
     {
-        [field:SerializeField] public string Name { get; set; }
-
-        [field:SerializeField] public List<Player> Players { get; set; }
+        [field:SerializeField] public AttackingDirection AttDirection { get; private set; }
+        [field:SerializeField] public string Name { get; private set; }
+        [field:SerializeField] public List<Player> Players { get; private set; }
 
         private void OnValidate()
         {

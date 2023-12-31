@@ -98,6 +98,7 @@ namespace Base
 
                 SelectedAction = Action.None;
                 StartCoroutine(ColorLerpCoroutine(field, Color.grey, Color.white, .5f));
+                SetFieldColliderState(CurrentlyPlays.GetFieldsWithPlayers(), true);
                 return;
             }
             // ==== END UNSELECT FIELD ====
@@ -162,7 +163,29 @@ namespace Base
             }
             SetFieldColliderState(matrixController.Fields, false);
             
-            SelectedAction = (Action)action;
+            Action pressedAction = (Action)action;
+            
+            // Undo selected action / Unselect action
+            if(pressedAction == SelectedAction)
+            {
+                Debug.Log("Undoing selected action");
+                SelectedAction = Action.None;
+                ReturnFieldsToNormalColor();
+                SetFieldColliderState(CurrentlyPlays.GetFieldsWithPlayers(), true);
+                firstSelectedField = null;
+                secondSelectedField = null;
+                return;
+            }
+            // Switch action - just change all field colors to white, since handlers bellow will color fields for new action again
+            else if(SelectedAction != Action.None && pressedAction != SelectedAction)
+            {
+                Debug.Log("Switching action");
+                ReturnFieldsToNormalColor();
+                // Since all fields are white, color the first selected field to grey
+                firstSelectedField.Sprite.color = Color.gray;
+            }
+
+            SelectedAction = pressedAction;
             
             // TODO: See if you can do some abstraction over actions, since they are very similar and have a lot of duplicate code
             if (SelectedAction == Action.Move)
@@ -170,12 +193,21 @@ namespace Base
                 // Find manager's player that is currently playing on the field where he clicked, since there will be checks when selecting first field
                 // This find is completely safe and won't cause null exception
                 Player player = firstSelectedField.Players.Find(p => CurrentlyPlays.Players.Contains(p));
-                List<Field> availableFields = matrixController.GetAvailableFieldsToMoveThePlayer(firstSelectedField, CurrentlyPlays, player, SelectedAction);
+                List<Field> availableFields = matrixController.GetAvailableFieldsToMoveThePlayer(firstSelectedField, CurrentlyPlays, player);
                 
                 availableFields.ForEach(f => StartCoroutine(ColorLerpCoroutine(f, Color.white, Color.yellow, .5f)));
                 // Adding first selected field to its collider can still be enabled, in case you want to deselect the field
                 availableFields.AddRange(new List<Field> {firstSelectedField});
-                SetFieldColliderState(availableFields, true);
+
+                if(availableFields.Count > 0)
+                {
+                    SetFieldColliderState(availableFields, true);
+                }
+                else
+                {
+                    Debug.LogError("There are no available fields to move the player, you can unselect the player or select another action");
+                    SetFieldColliderState(new List<Field>{firstSelectedField}, true);
+                }
             }
             else if (SelectedAction == Action.Pass)
             {
@@ -183,16 +215,51 @@ namespace Base
                 {
                     Debug.LogError("You can't pass the ball from the field that doesn't have the ball");
                     SelectedAction = Action.None;
+                    SetFieldColliderState(new List<Field>{firstSelectedField}, true);
                     return;
                 }
                 
                 Player player = firstSelectedField.Players.Find(p => CurrentlyPlays.Players.Contains(p));
-                List<Field> availableFields = matrixController.GetAvailableFieldsToPass(firstSelectedField, CurrentlyPlays, player, SelectedAction);
+                List<Field> availableFields = matrixController.GetAvailableFieldsToPass(firstSelectedField, CurrentlyPlays, player);
                 
                 availableFields.ForEach(f => StartCoroutine(ColorLerpCoroutine(f, Color.white, Color.cyan, .5f)));
                 // Adding first selected field to its collider can still be enabled, in case you want to deselect the field
                 availableFields.AddRange(new List<Field> {firstSelectedField});
-                SetFieldColliderState(availableFields, true);
+
+                if(availableFields.Count > 0)
+                {
+                    SetFieldColliderState(availableFields, true);
+                }
+                else
+                {
+                    Debug.LogError("There are no available fields to pass the ball, you can unselect the player or select another action");
+                    SetFieldColliderState(new List<Field>{firstSelectedField}, true);
+                }
+            }
+            else if (SelectedAction == Action.Shoot)
+            {
+               if (firstSelectedField.Ball != ball)
+               {
+                   Debug.LogError("You can't shoot the ball from the field that doesn't have the ball");
+                   SelectedAction = Action.None;
+                    SetFieldColliderState(new List<Field>{firstSelectedField}, true);
+                   return;
+               }
+               
+                Player player = firstSelectedField.Players.Find(p => CurrentlyPlays.Players.Contains(p));
+                List<Field> availableFields = matrixController.GetAvailableFieldsToShoot(firstSelectedField, CurrentlyPlays, player);
+                availableFields.ForEach(f => StartCoroutine(ColorLerpCoroutine(f, Color.white, Color.magenta, .5f)));
+                // Adding first selected field to its collider can still be enabled, in case you want to deselect the field
+                availableFields.AddRange(new List<Field> {firstSelectedField});
+                if(availableFields.Count > 0)
+                {
+                    SetFieldColliderState(availableFields, true);
+                }
+                else
+                {
+                    Debug.LogError("There are no available fields to pass the ball, you can unselect the player or select another action");
+                    SetFieldColliderState(new List<Field>{firstSelectedField}, true);
+                }
             }
         }
 
@@ -235,10 +302,12 @@ namespace Base
             {
                 ExecuteMove();
             }
-            // else if (action == Action.Shoot)
-            // {
-            //     ExecuteShoot();
-            // }
+            else if (action == Action.Shoot)
+            {
+                ExecuteShoot();
+            }
+
+            SelectedAction = Action.None;
         }
 
         public void ExecuteMove()
@@ -255,6 +324,14 @@ namespace Base
         public void ExecutePass()
         {
             StartCoroutine(PassTheBallCoroutine(firstSelectedField, secondSelectedField));
+            FieldWhereTheBallIs = secondSelectedField;
+            FieldWhereTheBallIs.Ball = ball;
+            firstSelectedField.Ball = null;
+        }
+
+        public void ExecuteShoot()
+        {
+            StartCoroutine(ShootTheBallCoroutine(firstSelectedField, secondSelectedField));
             FieldWhereTheBallIs = secondSelectedField;
             FieldWhereTheBallIs.Ball = ball;
             firstSelectedField.Ball = null;
@@ -287,6 +364,38 @@ namespace Base
         #endregion
 
         #region Coroutine Animations
+
+        private IEnumerator ShootTheBallCoroutine(Field source, Field destination)
+        {
+            Vector3 startingScale = ball.transform.localScale;
+            Vector3 sourcePos = source.transform.position;
+            Vector3 destPos = destination.transform.position;
+            Vector3 midPoint = (sourcePos + destPos) / 2;
+
+            const float speed = 3f; // Adjust as needed
+            const float maxScale = 1.2f; // Adjust as needed
+
+            while (ball.transform.position != destPos)
+            {
+                // Move the ball towards the destination
+                ball.transform.position = Vector3.MoveTowards(ball.transform.position, destPos, speed * Time.deltaTime);
+
+                // Calculate the distance to the midpoint and use it to scale the ball
+                float distanceToMidPoint = Vector3.Distance(ball.transform.position, midPoint);
+                float scale = maxScale * (1 - distanceToMidPoint / Vector3.Distance(sourcePos, midPoint));
+                
+                // Prevent scale down below the starting scale
+                // ==== Constraint ==== the ball should have the same scale on x and y axis in the scene, so that it doesn't look weird
+                float scaleClamp = Mathf.Clamp(scale, startingScale.x, scale); 
+                
+                ball.transform.localScale = new Vector2(scaleClamp, scaleClamp);
+
+                yield return null;
+            }
+
+            // Set the ball's scale back to normal
+            ball.transform.localScale = startingScale;
+        }
 
         private IEnumerator MoveToNextField(Player p, Field current, Field next)
         {

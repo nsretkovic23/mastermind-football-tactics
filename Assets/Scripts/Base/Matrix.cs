@@ -10,11 +10,11 @@ namespace Base
     public abstract class Matrix : MonoBehaviour
     {
         public UnityAction<Field> OnFieldClicked { get; set; }
+        public List<Field> Fields => fields;
+        [SerializeField] protected short shootingZoneRange;
         [SerializeField] protected short rows;
         [SerializeField] protected short columns;
-        
         [SerializeField] protected List<Field> fields;
-        public List<Field> Fields => fields;
         
         protected Field[,] matrix;
 
@@ -38,26 +38,42 @@ namespace Base
             OnFieldClicked?.Invoke(field);
         }
 
-        public abstract List<Field> GetAvailableFieldsToMoveThePlayer(Field selectedField, Manager manager, Player player, Action action);
+        #region Movement
+        public abstract List<Field> GetAvailableFieldsToMoveThePlayer(Field selectedField, Manager manager, Player player);
+        #endregion
 
-        public abstract List<Field> GetAvailableFieldsToPass(Field selectedField, Manager manager, Player player, Action action);
+        #region Passing
+        public abstract List<Field> GetAvailableFieldsToPass(Field selectedField, Manager manager, Player player);
+        protected abstract List<Field> GetAvailableFieldsToPassFromList(List<Base.Field> directionFields, Base.Player player);
+        #endregion
 
-        public abstract List<Field> GetAvailableFieldsToShoot(Field selectedField, Manager manager, Action action);
+        #region Shooting
+        public abstract List<Field> GetAvailableFieldsToShoot(Base.Field selectedField, Base.Manager manager, Base.Player player);
+        protected abstract List<Field> GetAvailableFieldsToShootFromList(List<Base.Field> directionFields, Base.Player player);
+        protected virtual bool IsInShootingZone(Base.Field selectedField, AttackingDirection attackingDirection)
+        {
+            // RULE: Selected field is in Shooting zone if it's in the last x columns of the opponent's side, where x is shootingZoneRange variable
 
-        protected abstract List<Field> GetAvailableFieldsToPassFromList(List<Base.Field> directionFields,
-            Base.Player player);
+            // -+1 because we are not counting goal fields
+            if (attackingDirection == AttackingDirection.Right)
+            {
+                return selectedField.Y >= columns - shootingZoneRange - 1;
+            }
+            else
+            {
+                return selectedField.Y < shootingZoneRange + 1;
+            }
+        }
+        #endregion
         
-        /// <summary>
-        /// Returns fields in order to the right of the field that is passed as a parameter
-        /// It doesn't include goalkeeper fields and neither forbidden fields
-        /// </summary>
-        protected virtual List<Field> GetOrderedFieldsToTheRightWithoutGK(Base.Field field)
+        #region Getting Matrix Fields
+        protected virtual List<Field> GetOrderedFieldsToTheRight(Base.Field field, bool includeGoal)
         {
             List<Base.Field> right = new ();
             for (int i = field.Y + 1; i < columns ; i++)
             {
                 Base.Field f = matrix[field.X, i];
-                if (!f.IsForbidden && !f.IsGoalkeeper)
+                if (!f.IsForbidden && (!f.IsGoal || includeGoal))
                 {
                     right.Add(f);
                 }
@@ -66,13 +82,13 @@ namespace Base
             return right;
         }
         
-        protected virtual List<Field> GetOrderedFieldsToTheLeftWithoutGK(Base.Field field)
+        protected virtual List<Field> GetOrderedFieldsToTheLeft(Base.Field field, bool includeGoal)
         {
             List<Base.Field> left = new ();
             for (int i = field.Y - 1; i >= 0; i--)
             {
                 Base.Field f = matrix[field.X, i];
-                if (!f.IsForbidden && !f.IsGoalkeeper)
+                if (!f.IsForbidden && (!f.IsGoal || includeGoal))
                 {
                     left.Add(f);
                 }
@@ -111,15 +127,15 @@ namespace Base
             return down;
         }
         
-        protected virtual List<Field> GetOrderedFieldsDiagonalDownRight(Base.Field field)
+        protected virtual List<Field> GetOrderedFieldsDiagonalDownRight(Base.Field field, bool includeGoal)
         {
             List<Base.Field> diagonalDownRight = new ();
             for (int i = field.X + 1, j = field.Y + 1;
-                i < rows && j < columns - 1;
+                i < rows && j < columns;
                 i++, j++)
             {
                 Base.Field f = matrix[i, j];
-                if (!f.IsForbidden && !f.IsGoalkeeper)
+                if (!f.IsForbidden && (!f.IsGoal || includeGoal))
                 {
                     diagonalDownRight.Add(f);
                 }
@@ -128,15 +144,15 @@ namespace Base
             return diagonalDownRight;
         }
         
-        protected virtual List<Field> GetOrderedFieldsDiagonalUpRight(Base.Field field)
+        protected virtual List<Field> GetOrderedFieldsDiagonalUpRight(Base.Field field, bool includeGoal)
         {
             List<Base.Field> diagonalUpRight = new ();
             for (int i = field.X - 1, j = field.Y + 1;
-                i >= 0 && j < columns - 1;
+                i >= 0 && j < columns;
                 i--, j++)
             {
                 Base.Field f = matrix[i, j];
-                if (!f.IsForbidden && !f.IsGoalkeeper)
+                if (!f.IsForbidden && (!f.IsGoal || includeGoal))
                 {
                     diagonalUpRight.Add(f);
                 }
@@ -145,7 +161,7 @@ namespace Base
             return diagonalUpRight;
         }
         
-        protected virtual List<Field> GetOrderedFieldsDiagonalDownLeft(Base.Field field)
+        protected virtual List<Field> GetOrderedFieldsDiagonalDownLeft(Base.Field field, bool includeGoal)
         {
             List<Base.Field> diagonalDownLeft = new ();
             for (int i = field.X + 1, j = field.Y - 1;
@@ -153,7 +169,7 @@ namespace Base
                 i++, j--)
             {
                 Base.Field f = matrix[i, j];
-                if (!f.IsForbidden && !f.IsGoalkeeper)
+                if (!f.IsForbidden && (!f.IsGoal || includeGoal))
                 {
                     diagonalDownLeft.Add(f);
                 }
@@ -162,7 +178,7 @@ namespace Base
             return diagonalDownLeft;
         }
         
-        protected virtual List<Field> GetOrderedFieldsDiagonalUpLeft(Base.Field field)
+        protected virtual List<Field> GetOrderedFieldsDiagonalUpLeft(Base.Field field, bool includeGoal)
         {
             List<Base.Field> diagonalUpLeft = new ();
             for (int i = field.X - 1, j = field.Y - 1;
@@ -170,7 +186,7 @@ namespace Base
                 i--, j--)
             {
                 Base.Field f = matrix[i, j];
-                if (!f.IsForbidden && !f.IsGoalkeeper)
+                if (!f.IsForbidden && (!f.IsGoal || includeGoal))
                 {
                     diagonalUpLeft.Add(f);
                 }
@@ -178,5 +194,7 @@ namespace Base
 
             return diagonalUpLeft;
         }
+        
+        #endregion
     }
 }

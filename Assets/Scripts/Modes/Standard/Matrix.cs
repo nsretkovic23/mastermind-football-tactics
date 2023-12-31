@@ -8,63 +8,20 @@ namespace Modes.Standard
 {
     public class Matrix : Base.Matrix
     {
-        public override List<Base.Field> GetAvailableFieldsToShoot(Base.Field selectedField, Base.Manager manager, Base.Action action)
-        {
-            throw new System.NotImplementedException();
-        }
-        
-        public override List<Base.Field> GetAvailableFieldsToMoveThePlayer(Base.Field selectedField, Base.Manager manager, Base.Player player, Base.Action action)
+       
+        public override List<Base.Field> GetAvailableFieldsToMoveThePlayer(Base.Field selectedField, Base.Manager manager, Base.Player player)
         {
             // TODO: REFACTOR: Refactor these function so that you can obtain fields from left/right/up/down/diagonal and then perform checks for movement passing and shooting, will be cleaner
             
             // TODO: Add additional logic for zones, for example you can't move to column where GK is, or you can't have more than 4/5 players in defense
             // TODO: Extract left/right movement to a separate horizontal movement method, and up/down movement to a separate vertical movement method
-            // Perspective is from the top, (just like matrix)
-            // So moving up/down means moving in the same column (x changes), moving left/right means moving in the same row (y changes)
+            // TODO: Handle GK movement - add only fields from one column (vertical), make this function similar to the one for passing the ball, and then check if field is gk's
+
             // Add empty fields all the way, if we encounter a field that we can't move to, we don't add it and break the loop 
             // Also break the loop when you encounter a field where the opponent's player is and you can move to, but remember to add that field cause it's still valid
             
             List<Base.Field> availableFields = new List<Base.Field>();
-            // Left
-            // Compare y with 2 because we can't move to the goalkeeper's column (goalkeeper on the left side, in 0th column), and also we can't move left if we are in the 1st column anyways
-            if (selectedField.Position.y > 2)
-            {
-                for (int i = selectedField.Position.y - 1; i >= 2; i--)
-                {
-                    Base.Field field = matrix[selectedField.Position.x, i];
-                    if (!field.CanMoveToTheField(player))
-                    {
-                        break;
-                    }
 
-                    availableFields.Add(field);
-                    if (!field.IsEmpty)
-                    {
-                        break;
-                    }
-                }
-            }
-            
-            // Right
-            // columns - 2 because we can't move to the goalkeeper's column (goalkeeper on the right side, in (columns - 1) column)
-            if (selectedField.Position.y < columns - 2)
-            {
-                for (int i = selectedField.Position.y + 1; i <= columns - 2; i++)
-                {
-                    Base.Field field = matrix[selectedField.Position.x, i];
-                    if (!field.CanMoveToTheField(player))
-                    {
-                        break;
-                    }
-
-                    availableFields.Add(field);
-                    if (!field.IsEmpty)
-                    {
-                        break;
-                    }
-                }
-            }
-            
             // Up
             // Here we can move all the way to the top and bottom row, so we can use rows-1
             if (selectedField.Position.x > 0)
@@ -92,6 +49,50 @@ namespace Modes.Standard
                 for(int i = selectedField.Position.x + 1; i <= rows - 1; i++)
                 {
                     Base.Field field = matrix[i, selectedField.Position.y];
+                    if (!field.CanMoveToTheField(player))
+                    {
+                        break;
+                    }
+
+                    availableFields.Add(field);
+                    if (!field.IsEmpty)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if(selectedField.IsGoal)
+            {
+                return availableFields;
+            }
+            // Left
+            // Compare y with 2 because we can't move to the goalkeeper's column (goalkeeper on the left side, in 0th column), and also we can't move left if we are in the 1st column anyways
+            if (selectedField.Position.y > 2)
+            {
+                for (int i = selectedField.Position.y - 1; i >= 2; i--)
+                {
+                    Base.Field field = matrix[selectedField.Position.x, i];
+                    if (!field.CanMoveToTheField(player))
+                    {
+                        break;
+                    }
+
+                    availableFields.Add(field);
+                    if (!field.IsEmpty)
+                    {
+                        break;
+                    }
+                }
+            }
+            
+            // Right
+            // columns - 2 because we can't move to the goalkeeper's column (goalkeeper on the right side, in (columns - 1) column)
+            if (selectedField.Position.y < columns - 2)
+            {
+                for (int i = selectedField.Position.y + 1; i <= columns - 2; i++)
+                {
+                    Base.Field field = matrix[selectedField.Position.x, i];
                     if (!field.CanMoveToTheField(player))
                     {
                         break;
@@ -194,7 +195,7 @@ namespace Modes.Standard
             return availableFields;
         }
         
-        public override List<Base.Field> GetAvailableFieldsToPass(Base.Field selectedField, Base.Manager manager, Base.Player player, Base.Action action)
+        public override List<Base.Field> GetAvailableFieldsToPass(Base.Field selectedField, Base.Manager manager, Base.Player player)
         {
             // TODO: Handle long pass zones - these will probably be the ones on the sideline, and you can pass to your teammate across the same column
             // TODO: Otherwise, rules are: you can pass up/down/left/right/diagonally to the closest player, but if player is marked, you can't pass to him
@@ -202,11 +203,11 @@ namespace Modes.Standard
             List<Base.Field> availableFields = new List<Base.Field>();
             
             // Left
-            List<Base.Field> left = GetOrderedFieldsToTheLeftWithoutGK(selectedField);
+            List<Base.Field> left = GetOrderedFieldsToTheLeft(selectedField, false);
             availableFields.AddRange(GetAvailableFieldsToPassFromList(left, player));
             
             // Right
-            List<Base.Field> right = GetOrderedFieldsToTheRightWithoutGK(selectedField);
+            List<Base.Field> right = GetOrderedFieldsToTheRight(selectedField, false);
             availableFields.AddRange(GetAvailableFieldsToPassFromList(right, player));
 
             // Up
@@ -218,20 +219,59 @@ namespace Modes.Standard
             availableFields.AddRange(GetAvailableFieldsToPassFromList(down, player));
             
             // Diagonal up left
-            List<Base.Field> diagonalUpLeft = GetOrderedFieldsDiagonalUpLeft(selectedField);
+            List<Base.Field> diagonalUpLeft = GetOrderedFieldsDiagonalUpLeft(selectedField, false);
             availableFields.AddRange(GetAvailableFieldsToPassFromList(diagonalUpLeft, player));
             
             // Diagonal down left
-            List<Base.Field> diagonalDownLeft = GetOrderedFieldsDiagonalDownLeft(selectedField);
+            List<Base.Field> diagonalDownLeft = GetOrderedFieldsDiagonalDownLeft(selectedField, false);
             availableFields.AddRange(GetAvailableFieldsToPassFromList(diagonalDownLeft, player));
             
             // Diagonal down right
-            List<Base.Field> diagonalDownRight = GetOrderedFieldsDiagonalDownRight(selectedField);
+            List<Base.Field> diagonalDownRight = GetOrderedFieldsDiagonalDownRight(selectedField, false);
             availableFields.AddRange(GetAvailableFieldsToPassFromList(diagonalDownRight, player));
             
             // Diagonal up right
-            List<Base.Field> diagonalUpRight = GetOrderedFieldsDiagonalUpRight(selectedField);
+            List<Base.Field> diagonalUpRight = GetOrderedFieldsDiagonalUpRight(selectedField, false);
             availableFields.AddRange(GetAvailableFieldsToPassFromList(diagonalUpRight, player));
+
+            return availableFields;
+        }
+        
+        public override List<Base.Field> GetAvailableFieldsToShoot(Base.Field selectedField, Base.Manager manager, Base.Player player)
+        {
+            // RULE: Shoot can be done only if selectedField is in the shooting zone
+            // RULE: Shoot can go horizontally or diagonally, and can only target fields that are marked as IsGoal
+
+            List<Base.Field> availableFields = new();
+
+            if(manager.AttDirection == AttackingDirection.Right && IsInShootingZone(selectedField, AttackingDirection.Right))
+            {
+                // Right
+                List<Base.Field> right = GetOrderedFieldsToTheRight(selectedField, true);
+                availableFields.AddRange(GetAvailableFieldsToShootFromList(right, player));
+                
+                // Diagonal up right
+                List<Base.Field> diagonalUpRight = GetOrderedFieldsDiagonalUpRight(selectedField, true);
+                availableFields.AddRange(GetAvailableFieldsToShootFromList(diagonalUpRight, player));
+                 
+                // Diagonal down right
+                List<Base.Field> diagonalDownRight = GetOrderedFieldsDiagonalDownRight(selectedField, true);
+                availableFields.AddRange(GetAvailableFieldsToShootFromList(diagonalDownRight, player));
+            }
+            else if (manager.AttDirection == AttackingDirection.Left && IsInShootingZone(selectedField, AttackingDirection.Left))
+            {
+                // Left
+                List<Base.Field> left = GetOrderedFieldsToTheLeft(selectedField, true);
+                availableFields.AddRange(GetAvailableFieldsToShootFromList(left, player));
+                
+                // Diagonal up left
+                List<Base.Field> diagonalUpLeft = GetOrderedFieldsDiagonalUpLeft(selectedField, true);
+                availableFields.AddRange(GetAvailableFieldsToShootFromList(diagonalUpLeft, player));
+                
+                // Diagonal down left
+                List<Base.Field> diagonalDownLeft = GetOrderedFieldsDiagonalDownLeft(selectedField, true);
+                availableFields.AddRange(GetAvailableFieldsToShootFromList(diagonalDownLeft, player));
+            }
 
             return availableFields;
         }
@@ -258,5 +298,19 @@ namespace Modes.Standard
             return availableFields;
         }
         
+        protected override List<Base.Field> GetAvailableFieldsToShootFromList(List<Base.Field> directionFields, Player player)
+        {
+            List<Base.Field> availableFields = new();
+            
+            directionFields.ForEach(field =>
+            {
+                if (field.IsGoal && field.IsEmpty)
+                {
+                    availableFields.Add(field);
+                }
+            });
+
+            return availableFields;
+        }
     }
 }
