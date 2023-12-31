@@ -348,16 +348,18 @@ namespace Base
         public void NextTurn()
         {
             ReturnFieldsToNormalColor();
+            // TODO: FIX HACK: SetFieldColliderState is called with false first and then with true, to make sure that if players are stacked on one field
+            // this field stays enabled, do not reorder there calls before refactoring it
             if (CurrentlyPlays == m1)
             {
-                SetFieldColliderState(m2.GetFieldsWithPlayers(), true);
                 SetFieldColliderState(m1.GetFieldsWithPlayers(), false);
+                SetFieldColliderState(m2.GetFieldsWithPlayers(), true);
                 CurrentlyPlays = m2;
             }
             else
             {
-                SetFieldColliderState(m1.GetFieldsWithPlayers(), true);
                 SetFieldColliderState(m2.GetFieldsWithPlayers(), false);
+                SetFieldColliderState(m1.GetFieldsWithPlayers(), true);
                 CurrentlyPlays = m1;
             }
         }
