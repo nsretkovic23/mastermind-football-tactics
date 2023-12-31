@@ -395,6 +395,9 @@ namespace Base
 
             // Set the ball's scale back to normal
             ball.transform.localScale = startingScale;
+
+            // TODO: Remove this and rather do the coroutine sync
+            ReturnFieldsToNormalColor();
         }
 
         private IEnumerator MoveToNextField(Player p, Field current, Field next)
@@ -406,6 +409,9 @@ namespace Base
                 yield return null;
             }
             p.transform.position = next.transform.position;
+
+            // TODO: Remove this and rather do the coroutine sync
+            ReturnFieldsToNormalColor();
         }
         
         /// <summary>
@@ -442,6 +448,9 @@ namespace Base
 
             // Set the ball's scale back to normal
             ball.transform.localScale = startingScale;
+
+            // TODO: Remove this and rather do the coroutine sync
+            ReturnFieldsToNormalColor();
         }
         
         private IEnumerator ColorLerpCoroutine(Field field, Color start, Color end, float duration)
