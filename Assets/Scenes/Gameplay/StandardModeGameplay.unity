@@ -412,7 +412,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 78584229}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 78584227}
@@ -1300,7 +1300,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 143328349}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 143328347}
@@ -1455,7 +1455,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 149815302}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 149815300}
@@ -1703,7 +1703,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 180495229}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 180495227}
@@ -1858,7 +1858,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 180687870}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 180687868}
@@ -2044,7 +2044,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 207559383}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 207559381}
@@ -2494,7 +2494,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 235850401}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 235850399}
@@ -2748,7 +2748,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 252462356}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 252462354}
@@ -2903,7 +2903,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 266809806}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 266809804}
@@ -3405,7 +3405,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 330987838}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 775961294}
   <Sprite>k__BackingField: {fileID: 330987836}
@@ -3840,7 +3840,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 369146070}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 369146068}
@@ -4192,7 +4192,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 394128093}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 394128091}
@@ -4502,7 +4502,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 505662757}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 505662755}
@@ -5062,7 +5062,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 562870445}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 562870443}
@@ -5279,7 +5279,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 589403832}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 589403830}
@@ -5726,7 +5726,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 639437642}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 1
+  <IsGoal>k__BackingField: 1
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 639437640}
@@ -5821,7 +5821,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 642462345}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -5881,7 +5881,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 642462349}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 1
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 642462347}
@@ -6036,7 +6036,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 645994654}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 1
+  <IsGoal>k__BackingField: 1
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 645994652}
@@ -6222,7 +6222,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 671978078}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 671978076}
@@ -6377,7 +6377,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 688652475}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 688652473}
@@ -6532,7 +6532,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 693701588}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 693701586}
@@ -6687,7 +6687,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 697372901}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 697372899}
@@ -7012,7 +7012,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 727894528}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 727894526}
@@ -7426,7 +7426,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 772262480}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 772262478}
@@ -7575,7 +7575,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6681e5958b0d8fe458c936080d841a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <CurrentField>k__BackingField: {fileID: 1526389317}
 --- !u!1 &785454527
 GameObject:
   m_ObjectHideFlags: 0
@@ -7882,6 +7881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d614ba64323d043a135d257735d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <AttDirection>k__BackingField: 1
   <Name>k__BackingField: m1
   <Players>k__BackingField:
   - {fileID: 524297003}
@@ -8159,7 +8159,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 858292572}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 1
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 858292570}
@@ -8413,7 +8413,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 903350834}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 1
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 903350832}
@@ -8568,7 +8568,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 915327402}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 915327400}
@@ -8754,7 +8754,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 938890461}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 938890459}
@@ -8940,7 +8940,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 968817736}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 1
+  <IsGoal>k__BackingField: 1
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 968817734}
@@ -9126,7 +9126,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 998512202}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 1
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 998512200}
@@ -9281,7 +9281,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1011627333}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1011627331}
@@ -9498,7 +9498,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1023977799}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 1
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1023977797}
@@ -9684,7 +9684,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1087667563}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1087667561}
@@ -9839,7 +9839,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1089806907}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1089806905}
@@ -9994,7 +9994,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1100930495}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1100930493}
@@ -10149,7 +10149,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1101530469}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1101530467}
@@ -10769,7 +10769,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1213031072}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 1
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1213031070}
@@ -10924,7 +10924,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1244036252}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1244036250}
@@ -11079,7 +11079,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1263854589}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1263854587}
@@ -11587,7 +11587,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1322224508}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1322224506}
@@ -12188,7 +12188,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1465613635}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1465613633}
@@ -12343,7 +12343,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1467929197}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1467929195}
@@ -12774,7 +12774,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1518669112}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1518669110}
@@ -12929,7 +12929,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1526389318}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1526389316}
@@ -13025,6 +13025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbc26f7e4c3ce94abf362459442477c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shootingZoneRange: 3
   rows: 7
   columns: 9
   fields:
@@ -13324,7 +13325,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1548572524}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1548572521}
@@ -13728,7 +13729,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1557981719}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1557981717}
@@ -13883,7 +13884,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1559094923}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1559094921}
@@ -14193,7 +14194,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1663085843}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1663085841}
@@ -14379,7 +14380,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1670374748}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1670374746}
@@ -14850,7 +14851,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1733407417}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1733407415}
@@ -15067,7 +15068,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1749649393}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 1
+  <IsGoal>k__BackingField: 1
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1749649391}
@@ -15253,7 +15254,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1759330869}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1759330867}
@@ -15408,7 +15409,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1767269252}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 1
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1767269250}
@@ -15594,7 +15595,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1770326473}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1770326471}
@@ -15749,7 +15750,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1784414872}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 1
+  <IsGoal>k__BackingField: 1
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1784414870}
@@ -16034,7 +16035,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1802471526}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1802471524}
@@ -16319,7 +16320,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1849313764}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1849313762}
@@ -16604,7 +16605,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1884818615}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 1
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1884818613}
@@ -16701,6 +16702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d614ba64323d043a135d257735d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <AttDirection>k__BackingField: 0
   <Name>k__BackingField: m2
   <Players>k__BackingField:
   - {fileID: 278912806}
@@ -17248,7 +17250,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1954824361}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1954824359}
@@ -17586,7 +17588,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1994149398}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 1994149396}
@@ -17964,7 +17966,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 2022742542}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 1
+  <IsGoal>k__BackingField: 1
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 2022742540}
@@ -18471,7 +18473,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 2081462985}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 2081462983}
@@ -18950,7 +18952,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 2136283125}
   <Position>k__BackingField: {x: 0, y: 0}
   <IsForbidden>k__BackingField: 0
-  <IsGoalkeeper>k__BackingField: 0
+  <IsGoal>k__BackingField: 0
   <Players>k__BackingField: []
   <Ball>k__BackingField: {fileID: 0}
   <Sprite>k__BackingField: {fileID: 2136283123}

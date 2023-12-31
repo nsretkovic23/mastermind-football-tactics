@@ -12,7 +12,7 @@ namespace Base
         [field:SerializeField] public Collider2D Collider { get; set; }
         [field:SerializeField] public Vector2Int Position { get; set; }
         [field:SerializeField] public bool IsForbidden { get; set; }
-        [field:SerializeField] public bool IsGoalkeeper { get; set; }
+        [field:SerializeField] public bool IsGoal { get; set; }
         [field: SerializeField] public List<Player> Players { get; set; }
         [field:SerializeField] public Ball Ball { get; set; }
         [field:SerializeField] public SpriteRenderer Sprite { get; set; }
